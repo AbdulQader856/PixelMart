@@ -1,0 +1,11 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<h2>Welcome to PixelMart!</h2>
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}! 🎮</p>
+    <a href="{% url 'logout' %}">Logout</a>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'signup' %}">Sign Up</a> to explore games.</p>
+{% endif %}
+{% endblock %}
