@@ -1,0 +1,30 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<h2>Your Cart 🛒</h2>
+
+{% if cart_items %}
+    <table border="1" width="100%">
+        <tr>
+            <th>Game</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.game.title }}</td>
+            <td>${{ item.game.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td><a href="{% url 'remove_from_cart' item.game.id %}">❌ Remove</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Total Price: ${{ total_price }}</h3>
+    <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+
+<a href="{% url 'home' %}">Continue Shopping</a>
+{% endblock %}

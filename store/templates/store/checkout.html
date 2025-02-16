@@ -1,0 +1,10 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<h2>Checkout</h2>
+
+<p>Total Price: ${{ total_price }}</p>
+<p>Payment Integration Coming Soon...</p>
+
+<a href="{% url 'cart' %}">Back to Cart</a>
+{% endblock %}
