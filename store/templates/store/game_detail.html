@@ -1,0 +1,13 @@
+{% extends 'store/base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: auto;">
+    <img src="{{ game.image.url }}" alt="{{ game.title }}" style="width: 100%;">
+    <h2>{{ game.title }}</h2>
+    <p>{{ game.description }}</p>
+    <p><strong>Price: ${{ game.price }}</strong></p>
+    <a href="#">Buy Now</a> <!-- We will connect this to the cart system later -->
+    <br><br>
+    <a href="{% url 'home' %}">Back to Games</a>
+</div>
+{% endblock %}

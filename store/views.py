@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Game
@@ -32,3 +32,7 @@ def logout_user(request):
 def home(request):
     games = Game.objects.all()
     return render(request, 'store/home.html', {'games': games})
+
+def game_detail(request, game_id):
+    game = get_object_or_404(Game, id=game_id)
+    return render(request, 'store/game_detail.html', {'game': game})
