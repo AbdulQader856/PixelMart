@@ -8,4 +8,58 @@
 {% else %}
     <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'signup' %}">Sign Up</a> to explore games.</p>
 {% endif %}
+
+<h2>Latest Releases 🎮</h2>
+
+<div style="display: flex; flex-wrap: wrap;">
+    {% for game in games %}
+    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 250px;">
+        {% if game.image %}
+            <img src="{{ game.image.url }}" alt="{{ game.title }}" style="width: 100%;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <h3>{{ game.title }}</h3>
+        <p>{{ game.description }}</p>
+        <p><strong>${{ game.price }}</strong></p>
+        <a href="#">Buy Now</a>
+    </div>
+{% endfor %}
+</div>
+
+<h2>Top Sellers 🎮</h2>
+
+<div style="display: flex; flex-wrap: wrap;">
+    {% for game in games %}
+    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 250px;">
+        {% if game.image %}
+            <img src="{{ game.image.url }}" alt="{{ game.title }}" style="width: 100%;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <h3>{{ game.title }}</h3>
+        <p>{{ game.description }}</p>
+        <p><strong>${{ game.price }}</strong></p>
+        <a href="#">Buy Now</a>
+    </div>
+{% endfor %}
+</div>
+
+<h2>Upcoming 🎮</h2>
+
+<div style="display: flex; flex-wrap: wrap;">
+    {% for game in games %}
+    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 250px;">
+        {% if game.image %}
+            <img src="{{ game.image.url }}" alt="{{ game.title }}" style="width: 100%;">
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <h3>{{ game.title }}</h3>
+        <p>{{ game.description }}</p>
+        <p><strong>${{ game.price }}</strong></p>
+        <a href="#">Buy Now</a>
+    </div>
+{% endfor %}
+</div>
 {% endblock %}

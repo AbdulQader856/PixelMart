@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from .models import Game
 
 def signup_user(request):
     if request.method == 'POST':
@@ -29,4 +30,5 @@ def logout_user(request):
     return redirect('home')
 
 def home(request):
-    return render(request, 'store/home.html')
+    games = Game.objects.all()
+    return render(request, 'store/home.html', {'games': games})
