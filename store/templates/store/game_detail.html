@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="card mx-auto" style="max-width: 600px;">
-    <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
+    <img src="{{ game.image.url|safe }}" class="card-img-top" alt="{{ game.title }}">
     <div class="card-body">
         <h2 class="card-title">{{ game.title }}</h2>
         <p class="card-text">{{ game.description }}</p>
