@@ -2,9 +2,12 @@
 
 {% block content %}
 <h2>Checkout</h2>
+<p><strong>Total Price: ${{ total_price }}</strong></p>
 
-<p>Total Price: ${{ total_price }}</p>
-<p>Payment Integration Coming Soon...</p>
+<form action="{% url 'checkout' %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">💳 Pay with Stripe</button>
+</form>
 
 <a href="{% url 'cart' %}">Back to Cart</a>
 {% endblock %}

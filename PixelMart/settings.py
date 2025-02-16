@@ -131,3 +131,6 @@ import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STRIPE_PUBLIC_KEY = 'pk_test_51Qt6iLFKRyJ4XjomWN9A48wvw5kAGEy982IEPAHPyvZ7zhg4Njih9oHDo0GdmMl4LTk23Dv50oHxIfkKZlps9Jhw00sMnCRGKT'
+STRIPE_SECRET_KEY = 'sk_test_51Qt6iLFKRyJ4XjomROS7Qht83ikuw71j9xODfY3he9HIyoVuJ8HebW1qSBnWB9AVGzH15kyIXjaeQ4VirquaJqaF00rnDg5o1B'

@@ -1,8 +1,11 @@
+import stripe
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Game
+from django.contrib.auth.decorators import login_required
+from .models import Game, Order, OrderItem
 
 def signup_user(request):
     if request.method == 'POST':
@@ -60,5 +63,53 @@ def cart(request):
     total_price = sum(item['game'].price * item['quantity'] for item in cart_items)
     return render(request, 'store/cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
 def checkout(request):
-    return render(request, 'store/checkout.html')
+    cart = request.session.get('cart', {})
+    total_price = sum(Game.objects.get(id=int(game_id)).price * qty for game_id, qty in cart.items())
+
+    if request.method == "POST":
+        # Create an order
+        order = Order.objects.create(user=request.user, total_price=total_price, payment_status=False)
+
+        # Save each cart item in OrderItem
+        for game_id, quantity in cart.items():
+            game = Game.objects.get(id=int(game_id))
+            OrderItem.objects.create(order=order, game=game, quantity=quantity)
+
+        # Create a Stripe checkout session
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'usd',
+                        'product_data': {'name': "PixelMart Purchase"},
+                        'unit_amount': int(total_price * 100),
+                    },
+                    'quantity': 1,
+                },
+            ],
+            mode='payment',
+            success_url="http://127.0.0.1:8000/success/",
+            cancel_url="http://127.0.0.1:8000/cart/",
+        )
+        
+        return redirect(session.url, code=303)
+
+    return render(request, 'store/checkout.html', {'total_price': total_price, 'stripe_public_key': settings.STRIPE_PUBLIC_KEY})
+
+def payment_success(request):
+    last_order = Order.objects.filter(user=request.user).last()
+    if last_order:
+        last_order.payment_status = True
+        last_order.save()
+    
+    request.session['cart'] = {}  # Clear the cart after payment
+    return render(request, 'store/success.html')
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'store/order_history.html', {'orders': orders})
