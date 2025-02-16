@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=b^6^!t@-6)j2aw99^5i!8-!ud%kf12@*dr2ojv%bdg+2bwg4%'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -128,9 +129,34 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import os
+import dj_database_url
+from dotenv import load_dotenv
+
+load_dotenv()
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STRIPE_PUBLIC_KEY = 'pk_test_51Qt6iLFKRyJ4XjomWN9A48wvw5kAGEy982IEPAHPyvZ7zhg4Njih9oHDo0GdmMl4LTk23Dv50oHxIfkKZlps9Jhw00sMnCRGKT'
-STRIPE_SECRET_KEY = 'sk_test_51Qt6iLFKRyJ4XjomROS7Qht83ikuw71j9xODfY3he9HIyoVuJ8HebW1qSBnWB9AVGzH15kyIXjaeQ4VirquaJqaF00rnDg5o1B'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'fallback-secret-key')
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', '')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', '')
+DATABASE_URL = os.getenv('DATABASE_URL', '')
+
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(default=DATABASE_URL, engine='django.db.backends.postgresql')
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME', 'pixelmart_db'),
+            'USER': os.getenv('DB_USER', 'your_postgres_user'),
+            'PASSWORD': os.getenv('DB_PASSWORD', 'your_postgres_password'),
+            'HOST': os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('DB_PORT', '5432'),
+        }
+    }

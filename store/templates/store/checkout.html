@@ -1,13 +1,13 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
-<h2>Checkout</h2>
-<p><strong>Total Price: ${{ total_price }}</strong></p>
+<h2 class="text-center">Checkout</h2>
+<p class="text-center"><strong>Total Price: <span class="text-success">${{ total_price }}</span></strong></p>
 
-<form action="{% url 'checkout' %}" method="POST">
+<form action="{% url 'checkout' %}" method="POST" class="text-center">
     {% csrf_token %}
-    <button type="submit">💳 Pay with Stripe</button>
+    <button type="submit" class="btn btn-success btn-lg">💳 Pay with Stripe</button>
 </form>
 
-<a href="{% url 'cart' %}">Back to Cart</a>
+<a href="{% url 'cart' %}" class="btn btn-secondary mt-3">⬅ Back to Cart</a>
 {% endblock %}

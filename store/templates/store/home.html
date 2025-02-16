@@ -1,52 +1,20 @@
 {% extends 'store/base.html' %}
 
 {% block content %}
-<h2>Welcome to PixelMart!</h2>
-{% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}! 🎮</p>
-    <a href="{% url 'logout' %}">Logout</a>
-{% else %}
-    <p><a href="{% url 'login' %}">Login</a> or <a href="{% url 'signup' %}">Sign Up</a> to explore games.</p>
-{% endif %}
+<h2 class="text-center">Welcome to PixelMart 🎮</h2>
 
-<h2>Latest Releases 🎮</h2>
-
-<div style="display: flex; flex-wrap: wrap;">
+<div class="row">
     {% for game in games %}
-        <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 250px;">
-            <img src="{{ game.image.url }}" alt="{{ game.title }}" style="width: 100%;">
-            <h3>{{ game.title }}</h3>
-            <p>{{ game.description|truncatewords:10 }}</p>
-            <p><strong>${{ game.price }}</strong></p>
-            <a href="{% url 'game_detail' game.id %}">View Details</a>
-        </div>
-    {% endfor %}
-</div>
-
-<h2>Top Sellers 🎮</h2>
-
-<div style="display: flex; flex-wrap: wrap;">
-    {% for game in games %}
-        <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 250px;">
-            <img src="{{ game.image.url }}" alt="{{ game.title }}" style="width: 100%;">
-            <h3>{{ game.title }}</h3>
-            <p>{{ game.description|truncatewords:10 }}</p>
-            <p><strong>${{ game.price }}</strong></p>
-            <a href="{% url 'game_detail' game.id %}">View Details</a>
-        </div>
-    {% endfor %}
-</div>
-
-<h2>Upcoming 🎮</h2>
-
-<div style="display: flex; flex-wrap: wrap;">
-    {% for game in games %}
-        <div style="border: 1px solid #ccc; padding: 10px; margin: 10px; width: 250px;">
-            <img src="{{ game.image.url }}" alt="{{ game.title }}" style="width: 100%;">
-            <h3>{{ game.title }}</h3>
-            <p>{{ game.description|truncatewords:10 }}</p>
-            <p><strong>${{ game.price }}</strong></p>
-            <a href="{% url 'game_detail' game.id %}">View Details</a>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p class="card-text">{{ game.description|truncatewords:15 }}</p>
+                    <p class="text-primary"><strong>${{ game.price }}</strong></p>
+                    <a href="{% url 'game_detail' game.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
         </div>
     {% endfor %}
 </div>
