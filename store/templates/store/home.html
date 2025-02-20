@@ -1,10 +1,13 @@
 {% extends 'store/base.html' %}
+{% load static %}
 
 {% block content %}
 <h2 class="text-center">Welcome to PixelMart 🎮</h2>
 
+<!-- Latest Releases -->
+<h3>🔥 Latest Releases</h3>
 <div class="row">
-    {% for game in games %}
+    {% for game in latest_games %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
                 <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
@@ -18,4 +21,41 @@
         </div>
     {% endfor %}
 </div>
+
+<!-- Top Selling -->
+<h3>🏆 Top Selling</h3>
+<div class="row">
+    {% for game in top_selling_games %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p class="card-text">{{ game.description|truncatewords:15 }}</p>
+                    <p class="text-primary"><strong>${{ game.price }}</strong></p>
+                    <a href="{% url 'game_detail' game.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Upcoming Games -->
+<h3>🚀 Upcoming Games</h3>
+<div class="row">
+    {% for game in upcoming_games %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ game.image.url }}" class="card-img-top" alt="{{ game.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p class="card-text">{{ game.description|truncatewords:15 }}</p>
+                    <p class="text-primary"><strong>${{ game.price }}</strong></p>
+                    <a href="{% url 'game_detail' game.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
 {% endblock %}
