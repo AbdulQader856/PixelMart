@@ -1,0 +1,23 @@
+# Django framework
+Django==5.1.6
+
+# PostgreSQL database adapter for Django
+psycopg2==2.9.9
+
+# Stripe API for payment processing
+stripe==7.6.0
+
+# Gunicorn for deployment (WSGI HTTP Server)
+gunicorn==21.2.0
+
+# Whitenoise for serving static files in production
+whitenoise==6.6.0
+
+# python-dotenv for managing environment variables
+python-dotenv==1.0.1
+
+# dj-database-url for database connection from environment variables
+dj-database-url==2.1.0
+
+# Pillow for image handling (required for image uploads)
+Pillow==10.2.0
