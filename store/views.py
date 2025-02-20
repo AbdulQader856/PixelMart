@@ -34,8 +34,15 @@ def logout_user(request):
     return redirect('home')
 
 def home(request):
-    games = Game.objects.all()
-    return render(request, 'store/home.html', {'games': games})
+    latest_games = Game.objects.filter(category='latest')
+    top_selling_games = Game.objects.filter(category='top')
+    upcoming_games = Game.objects.filter(category='upcoming')
+
+    return render(request, 'store/home.html', {
+        'latest_games': latest_games,
+        'top_selling_games': top_selling_games,
+        'upcoming_games': upcoming_games,
+    })
 
 def game_detail(request, game_id):
     game = get_object_or_404(Game, id=game_id)
